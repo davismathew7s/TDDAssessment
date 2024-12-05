@@ -57,4 +57,10 @@ test('Handles numbers greater than 1000', () => {
   expect(calculator.add('//;\n1;2;1001')).toBe(3); // 1001 is ignored, sum is 3
 });
 
+test('Handles custom delimiters of any length', () => {
+  expect(calculator.add('//[***]\n1***2***3')).toBe(6); // Custom delimiter '***', result 6
+  expect(calculator.add('//[***]\n1***1001****3')).toBe(4); // Custom delimiter '***', result 4 (1001 ignored)
+});
+
+
 

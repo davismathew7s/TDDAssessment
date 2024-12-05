@@ -5,14 +5,18 @@ function add(numbers) {
   
     // Handle custom delimiters
     let delimiter = ',';
-    if (numbers.startsWith('//')) {
+    if (numbers.startsWith('//[')) {
+      const delimiterEndIndex = numbers.indexOf(']\n');
+      delimiter = numbers.slice(3, delimiterEndIndex); // Extract the custom delimiter
+      numbers = numbers.slice(delimiterEndIndex + 2); // Remove the delimiter line
+    } else if (numbers.startsWith('//')) {
       const delimiterIndex = numbers.indexOf('\n');
-      delimiter = numbers.slice(2, delimiterIndex); // Extract delimiter
-      numbers = numbers.slice(delimiterIndex + 1); // Remove delimiter line
+      delimiter = numbers.slice(2, delimiterIndex); // Extract the custom delimiter
+      numbers = numbers.slice(delimiterIndex + 1); // Remove the delimiter line
     }
   
     // Split the string based on the custom delimiter or the default (comma + newline)
-    const regex = new RegExp(`[${delimiter},\n]`, 'g');
+    const regex = new RegExp(`[${delimiter},\n]+`, 'g');  // Handle multi-character delimiters
     const numberArray = numbers.split(regex).filter(num => num !== '');
   
     // Check for negative numbers
@@ -23,8 +27,8 @@ function add(numbers) {
   
     // Convert numbers to integers and sum them, ignoring numbers greater than 1000
     return numberArray.reduce((sum, num) => {
-        const number = parseInt(num, 10);
-        return number > 1000 ? sum : sum + number;
+      const number = parseInt(num, 10);
+      return number > 1000 ? sum : sum + number;
     }, 0);
   }
   
