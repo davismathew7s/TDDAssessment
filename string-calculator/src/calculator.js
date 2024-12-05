@@ -1,25 +1,28 @@
 function add(numbers) {
-    if (numbers === '') {
+    if (!numbers) {
       return 0;
     }
   
-    let delimiter = /,|\n/; // Default delimiters: comma or newline
-    let numbersToProcess = numbers;
-  
-    // Check for custom delimiter
-    const customDelimiterMatch = numbers.match(/^\/\/(.+)\n/);
-    if (customDelimiterMatch) {
-      // Use custom delimiter along with default ones
-      const customDelimiter = customDelimiterMatch[1];
-      delimiter = new RegExp(`[${customDelimiter},\\n]`); // Combine custom, comma, and newline
-      numbersToProcess = numbers.split('\n').slice(1).join('\n'); // Remove custom delimiter line
+    // Handle custom delimiters
+    let delimiter = ',';
+    if (numbers.startsWith('//')) {
+      const delimiterIndex = numbers.indexOf('\n');
+      delimiter = numbers.slice(2, delimiterIndex); // Extract delimiter
+      numbers = numbers.slice(delimiterIndex + 1); // Remove delimiter line
     }
   
-    // Split by the delimiter(s) and sum the numbers
-    return numbersToProcess
-      .split(delimiter) // Split by the detected delimiter(s)
-      .map((num) => parseInt(num, 10)) // Convert strings to integers
-      .reduce((sum, num) => sum + num, 0); // Calculate the sum
+    // Split the string based on the custom delimiter or the default (comma + newline)
+    const regex = new RegExp(`[${delimiter},\n]`, 'g');
+    const numberArray = numbers.split(regex).filter(num => num !== '');
+  
+    // Check for negative numbers
+    const negativeNumbers = numberArray.filter(num => parseInt(num, 10) < 0);
+    if (negativeNumbers.length > 0) {
+      throw new Error(`negative numbers not allowed: ${negativeNumbers.join(', ')}`);
+    }
+  
+    // Convert numbers to integers and sum them
+    return numberArray.reduce((sum, num) => sum + parseInt(num, 10), 0);
   }
   
   module.exports = { add };

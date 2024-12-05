@@ -39,3 +39,16 @@ test('Handles custom delimiters', () => {
 test('Handles default and custom delimiters together', () => {
   expect(calculator.add('//;\n1;2\n3,4')).toBe(10); // Mix of custom and default delimiters
 });
+
+test('throws an exception for negative numbers', () => {
+  expect(() => {
+    calculator.add('1,-2,3,-4');
+  }).toThrowError('negative numbers not allowed: -2, -4');
+});
+
+test('throws an exception for a single negative number', () => {
+  expect(() => {
+    calculator.add('-5');
+  }).toThrowError('negative numbers not allowed: -5');
+});
+
