@@ -64,6 +64,9 @@ test('Handles custom delimiters of any length', () => {
 
 test('Handles multiple custom delimiters', () => {
   expect(calculator.add('//[*][%]\n1*2%3')).toBe(6); // Custom delimiters '*', '%' result 6
+});
+
+test('Handle multiple delimiters with length longer than one char', () => {
   expect(calculator.add('//[***][%%]\n1***2%%3')).toBe(6); // Custom delimiters '***', '%%' result 6
   expect(calculator.add('//[***][%%]\n1***1001%%3')).toBe(4); // Custom delimiters '***', '%%' result 4 (1001 ignored)
 });
