@@ -52,3 +52,9 @@ test('throws an exception for a single negative number', () => {
   }).toThrowError('negative numbers not allowed: -5');
 });
 
+test('Handles numbers greater than 1000', () => {
+  expect(calculator.add('2,1001')).toBe(2);  // 1001 is ignored, so sum is 2
+  expect(calculator.add('//;\n1;2;1001')).toBe(3); // 1001 is ignored, sum is 3
+});
+
+

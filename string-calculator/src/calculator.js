@@ -21,8 +21,11 @@ function add(numbers) {
       throw new Error(`negative numbers not allowed: ${negativeNumbers.join(', ')}`);
     }
   
-    // Convert numbers to integers and sum them
-    return numberArray.reduce((sum, num) => sum + parseInt(num, 10), 0);
+    // Convert numbers to integers and sum them, ignoring numbers greater than 1000
+    return numberArray.reduce((sum, num) => {
+        const number = parseInt(num, 10);
+        return number > 1000 ? sum : sum + number;
+    }, 0);
   }
   
   module.exports = { add };
