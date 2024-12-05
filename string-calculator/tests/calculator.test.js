@@ -30,3 +30,12 @@ test('Handles new lines and commas together', () => {
   expect(calculator.add('1,2\n3\n4,5')).toBe(15);
 });
 
+test('Handles custom delimiters', () => {
+  expect(calculator.add('//;\n1;2')).toBe(3); // Custom delimiter ';'
+  expect(calculator.add('//|\n1|2|3')).toBe(6); // Custom delimiter '|'
+  expect(calculator.add('//#\n1#2#3')).toBe(6); // Custom delimiter '#'
+});
+
+test('Handles default and custom delimiters together', () => {
+  expect(calculator.add('//;\n1;2\n3,4')).toBe(10); // Mix of custom and default delimiters
+});
