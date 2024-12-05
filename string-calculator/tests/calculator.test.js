@@ -21,3 +21,12 @@ test('Large number of inputs', () => {
   const input = Array.from({ length: 100 }, (_, i) => i + 1).join(',');
   expect(calculator.add(input)).toBe(5050); // Sum of numbers 1 to 100
 });
+
+test('Handles new lines between numbers', () => {
+  expect(calculator.add('1\n2,3')).toBe(6);
+});
+
+test('Handles new lines and commas together', () => {
+  expect(calculator.add('1,2\n3\n4,5')).toBe(15);
+});
+
